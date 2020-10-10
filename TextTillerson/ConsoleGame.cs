@@ -33,6 +33,30 @@ namespace TextTillerson
 
         }
 
+        internal override void Walk(Location l)
+        {
+            base.Walk(l);
+            Console.WriteLine($"You walk to the {l.Name}. Were those footsteps above you?");
+
+        }
+
+        internal override void InvalidWalkLocation()
+        {
+            Console.WriteLine("You can't go there.");
+
+        }
+
+        internal override void displayLocations(Location[] locations)
+        {
+            Console.WriteLine("You see some interesting things."); //Implement items eventually with look.
+            foreach (var location in locations)
+            {
+                Console.WriteLine(location.Name);
+            }
+           
+
+        }
+
 
     }
 }

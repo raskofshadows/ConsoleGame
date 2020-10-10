@@ -1,4 +1,6 @@
-﻿namespace TextTillerson
+﻿using System.Linq;
+
+namespace TextTillerson
 {
    abstract class InputEventType
     {
@@ -85,7 +87,9 @@
 
             public override void HandleGameEvent(Game game, string[] parameters)
             {
-               
+                Location[] l = game.getWalkableLocations();
+               game.displayLocations(l);
+
             }
         }
 
@@ -98,7 +102,21 @@
 
             public override void HandleGameEvent(Game game, string[] parameters)
             {
-               
+                Item[] items = game.getNearbyItems();
+                string target = parameters[0];
+                foreach (Item i in items)
+                {
+                    if (i.Name == target)
+                    {
+                        game.Grab(i);
+                        return;
+                    }
+                }
+
+                game.UnrealItem();
+
+
+
             }
         }
 
@@ -202,13 +220,18 @@
 
             public override void HandleGameEvent(Game game, string[] parameters)
             {
+                if (!parameters.Any())
+                {
+                    InputEventType.Look.HandleGameEvent(game, parameters);
+                    return;
+                }
                 Location[] ls = game.getWalkableLocations();
                 string direction = parameters[0];
                 foreach (Location l in ls)
                 {
                     if (l.Name == direction)
                     {
-                        game.walk(l);
+                        game.Walk(l);
                         return;
                     }
                 }
